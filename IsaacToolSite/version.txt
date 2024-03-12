@@ -1,0 +1,20 @@
+0.0.5.0
+- Added linear thermal expansion page
+- Added error list file for handling error messages
+- Cleaned up code
+- Updated navigation bar
+
+0.0.4.1
+- Added vector addition page
+- Implemented class views
+
+0.0.3.0
+- Added average speed page
+
+0.0.2.0
+- Added navigation bar
+- Added directory
+
+0.0.1.0
+- The project was created.
+- Security measures were implemented before being pushed to Github.

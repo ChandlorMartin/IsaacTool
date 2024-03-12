@@ -1,0 +1,85 @@
+{%  extends 'IsaacTool/../IsaacTool/index.html' %}
+
+
+{% block title %}
+    <p class="text-center fs-1">Vector Addition</p>
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="mb-4 text-primary">Add Vectors</h1>
+
+    <form method="post" class="form-inline" action="/vector_addition/">
+        {% csrf_token %}
+
+        <!-- i hat -->
+        <div class="input-group mb-3">
+            <span class="input-group-text">$$ \hat{i} $$</span>
+            <input type="text" class="form-control" aria-label="i" name="i" value="{{ i }}">
+        </div>
+
+        <!-- i hat error Messages-->
+        {% if form.i.errors %}
+            <div class="alert alert-danger">
+                {{ form.i.errors }}
+            </div>
+       {% endif %}
+
+        <!-- j hat -->
+        <div class="input-group mb-3">
+            <span class="input-group-text">$$ \hat{j} $$</span>
+            <input type="text" class="form-control" aria-label="j" name="j" value="{{ j }}">
+        </div>
+
+        <!-- j hat Error Message -->
+        {% if form.j.errors %}
+           <div class="alert alert-danger">
+               {{ form.j.errors }}
+           </div>
+       {% endif %}
+
+        <!-- k hat -->
+        <div class="input-group mb-3">
+            <span class="input-group-text">$$ \hat{k} $$</span>
+            <input type="text" class="form-control" aria-label="k" name="k" value="{{ k }}">
+        </div>
+
+        <!-- k hat Error Message -->
+        {% if form.k.errors %}
+           <div class="alert alert-danger">
+               {{ form.k.errors }}
+           </div>
+        {% endif %}
+
+        <!-- Calculate button -->
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="submit" class="btn btn-primary">Add Vectors</button>
+        </div>
+
+        <!-- Non Field Error Message-->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Resultant Vector-->
+        {% if form.average_speed.errors %}
+            <div class="alert alert-danger">
+                {{ form.average_speed.errors }}
+            </div>
+        {% endif %}
+
+        {% if plot_html %}
+            <p class="fs-1 fw-bold text-center">Results</p>
+
+            <div class="input-group mb-3 justify-content-center">
+                <label>Resultant Vector = {{resultant_vector }}</label>
+            </div>
+
+            <div class="d-flex justify-content-center mb-3" id="plot-container">{{ plot_html|safe }}</div>
+        {% endif %}
+    </form>
+{% endblock %}

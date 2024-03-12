@@ -1,0 +1,5 @@
+.env
+
+# static files (collectstatic)
+staticfiles/
+RunServerScript.bat

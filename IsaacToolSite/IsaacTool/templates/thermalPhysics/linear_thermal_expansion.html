@@ -1,0 +1,119 @@
+{%  extends 'IsaacTool/../IsaacTool/index.html' %}
+
+
+{% block title %}
+    <p class="text-center fs-1">Linear Thermal Expansion</p>
+    <p class="text-center fs-3">\( \Delta L \over L\) = \(\alpha \Delta T\)</p>
+{% endblock %}
+
+
+{% block content %}
+    <form method="post" class="form-inline" action="/linear_thermal_expansion/">
+        {% csrf_token %}
+
+        <!-- Material Select -->
+        <select class="form-select" id="materialSelect" aria-label="Default select example" >
+            <option selected>Open this select menu</option>
+            {% for material in materials %}
+                <option value="{{ material.id }}">{{ material.name }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Linear Coefficient -->
+        <div class="input-group mb-3">
+            <span class="input-group-text">$$ \alpha $$&ensp;&nbsp;</span>
+            <input type="text" class="form-control" id="linearCoefficient"  name="linear_coefficient" value="{{ linear_coefficient }}" aria-label="Linear coefficient">
+            <span class="input-group-text">C<sup>-1</sup></span>
+        </div>
+
+        <!-- Length Error Message-->
+        {% if form.linear_coefficient.errors %}
+            <div class="alert alert-danger">
+                {{ form.linear_coefficient.errors }}
+            </div>
+       {% endif %}
+
+        <!-- Length -->
+        <div class="input-group mb-3">
+            <span class="input-group-text">L &ensp;&nbsp;</span>
+            <input type="text" class="form-control" id="length"  name="length" value="{{ length }}"  aria-label="Length">
+            <span class="input-group-text">m&nbsp;&nbsp;</span>
+        </div>
+
+        <!-- Length Error Message-->
+        {% if form.length.errors %}
+            <div class="alert alert-danger">
+                {{ form.length.errors }}
+            </div>
+       {% endif %}
+
+        <!-- Length Change-->
+        <div class="input-group mb-3">
+            <span class="input-group-text">\(\Delta\)L</span>
+            <input type="text" class="form-control" id="lengthChange"  name="length_change" value="{{ length_change }}" aria-label="Length change">
+            <span class="input-group-text">m&nbsp;&nbsp;</span>
+        </div>
+
+        <!-- Length Change Error Message-->
+        {% if form.length_change.errors %}
+            <div class="alert alert-danger">
+                {{ form.length_change.errors }}
+            </div>
+       {% endif %}
+
+        <!-- Temperature Change-->
+        <div class="input-group mb-3">
+            <span class="input-group-text">\(\Delta\)T</span>
+            <input type="text" class="form-control" id="temperatureChange"  name="temperature_change" value="{{ temperature_change }}" aria-label="Temperature change">
+            <span class="input-group-text">C\(^\circ\)&nbsp;&nbsp;</span>
+        </div>
+
+        <!-- Temperature Change Error Message-->
+        {% if form.temperature_change.errors %}
+            <div class="alert alert-danger">
+                {{ form.temperature_change.errors }}
+            </div>
+       {% endif %}
+
+        <!-- Calculate Button-->
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </div>
+
+        <!-- Non Field Error Message-->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </form>
+
+
+    <script>
+        // This variable will hold the serialized materials data
+        var materialsData;
+        var materialsKeys;
+
+        // Wait for the DOM to be fully loaded before loading the database and its keys
+        document.addEventListener('DOMContentLoaded', function()
+        {
+            materialsData = JSON.parse('{{ materials_data|escapejs }}');
+            materialsKeys = Object.keys(materialsData);
+        });
+
+
+        // This loads the coefficient of the selected material into the linear coefficient input
+        function handleMaterialChange()
+        {
+            let selectedMaterialId = document.getElementById('materialSelect');
+            let selectedMaterialName = materialsKeys[selectedMaterialId.value - 1];
+
+            document.getElementById('linearCoefficient').value = materialsData[selectedMaterialName];
+        }
+
+        // Listens for an option to be selected from dropdown
+        document.getElementById('materialSelect').addEventListener('change', handleMaterialChange);
+    </script>
+{% endblock %}

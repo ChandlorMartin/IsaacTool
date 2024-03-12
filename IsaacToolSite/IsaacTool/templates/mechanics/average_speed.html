@@ -1,0 +1,71 @@
+{%  extends 'IsaacTool/../IsaacTool/index.html' %}
+
+
+{% block title %}
+    <p class="text-center fs-1">Average Speed</p>
+    <p class="text-center fs-3">Speed <sub>Avg</sub> = \(d \over t\),</p>
+{% endblock %}
+
+
+{% block content %}
+    <form method="post" class="form-inline" action="/average_speed/">
+        {% csrf_token %}
+
+        <!-- Average Speed -->
+        <label class="form-label">Average Speed (m/s)</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text"></span>
+            <input type="text" class="form-control" aria-label="Average Speed" name="average_speed" value="{{ average_speed }}">
+        </div>
+
+        <!-- Average Speed Error Message-->
+        {% if form.average_speed.errors %}
+            <div class="alert alert-danger">
+                {{ form.average_speed.errors }}
+            </div>
+       {% endif %}
+
+        <!-- Distance -->
+        <label class="form-label">Distance (m)</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text"></span>
+            <input type="text" class="form-control" aria-label="Distance" name="distance" value="{{ distance }}">
+        </div>
+
+        <!-- Distance Error Message-->
+        {% if form.distance.errors %}
+           <div class="alert alert-danger">
+               {{ form.distance.errors }}
+           </div>
+       {% endif %}
+
+        <!-- Time Interval -->
+        <label class="form-label">Time Interval (s)</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text"></span>
+            <input type="text" class="form-control" aria-label="Time Interval" name="time_interval" value="{{ time_interval }}">
+        </div>
+
+        <!-- Time Interval Error Message -->
+        {% if form.time_interval.errors %}
+           <div class="alert alert-danger">
+               {{ form.time_interval.errors }}
+           </div>
+        {% endif %}
+
+        <!-- Calculate button -->
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </div>
+
+        <!-- Non Field Error Message-->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}
+
